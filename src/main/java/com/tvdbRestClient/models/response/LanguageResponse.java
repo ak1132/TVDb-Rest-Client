@@ -4,6 +4,14 @@ import com.tvdbRestClient.models.request.Language;
 
 public class LanguageResponse {
 
-    public Language data;
+	private Language data;
+
+	public Language getData() {
+		return data;
+	}
+
+	public void setData(Language data) {
+		this.data = data;
+	}
 
 }

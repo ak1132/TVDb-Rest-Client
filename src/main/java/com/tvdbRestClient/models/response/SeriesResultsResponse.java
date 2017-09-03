@@ -6,6 +6,14 @@ import com.tvdbRestClient.models.request.Series;
 
 public class SeriesResultsResponse {
 
-    public List<Series> data;
+	private List<Series> data;
+
+	public List<Series> getData() {
+		return data;
+	}
+
+	public void setData(List<Series> data) {
+		this.data = data;
+	}
 
 }

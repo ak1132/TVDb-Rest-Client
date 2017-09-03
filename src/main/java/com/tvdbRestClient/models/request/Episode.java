@@ -2,21 +2,21 @@ package com.tvdbRestClient.models.request;
 
 public class Episode {
 
-	public Integer id;
-	public Integer absoluteNumber;
-	public Integer airedEpisodeNumber;
-	public Integer airedSeason;
-	public Integer airedSeasonID;
-	public Double dvdEpisodeNumber;
-	public Integer dvdSeason;
-	public String episodeName;
+	private Integer id;
+	private Integer absoluteNumber;
+	private Integer airedEpisodeNumber;
+	private Integer airedSeason;
+	private Integer airedSeasonID;
+	private Double dvdEpisodeNumber;
+	private Integer dvdSeason;
+	private String episodeName;
 	/** ISO 8601 date string, like "2010-09-20". */
-	public String firstAired;
+	private String firstAired;
 	/** ISO 639-1 language codes, like "en". */
-	public Translations language;
+	private Translations language;
 	/** Time in seconds, like 1430845514. */
-	public Long lastUpdated;
-	public String overview;
+	private Long lastUpdated;
+	private String overview;
 
 	public Integer getId() {
 		return id;
