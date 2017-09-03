@@ -49,7 +49,7 @@ public class TvdbUtils {
 	public OkHttpClient getOkHttpClient() {
 		if (okHttpClient == null) {
 			OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
-					.addNetworkInterceptor(new TvdbInterceptor()).authenticator(new TvdbAuthenticator(this));
+					.addNetworkInterceptor(new TvdbInterceptor()).authenticator(new TvdbAuthenticator());
 			okHttpClient = okHttpClientBuilder.build();
 		}
 		return okHttpClient;
