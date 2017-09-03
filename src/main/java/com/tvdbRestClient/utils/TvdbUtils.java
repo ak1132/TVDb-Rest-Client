@@ -18,7 +18,7 @@ public class TvdbUtils {
 	public static final String HEADER_ACCEPT_LANGUAGE = "Accept-Language";
 	public static final String HEADER_AUTHORIZATION = "Authorization";
 
-	public static final String apikey = "1992394273E010A4";
+	private final String apikey = "1992394273E010A4";
 
 	public String token = null;
 
@@ -32,6 +32,10 @@ public class TvdbUtils {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public String getApiKey() {
+		return apikey;
 	}
 
 	public Retrofit getTvdbRetrofitClient() {

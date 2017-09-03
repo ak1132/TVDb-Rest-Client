@@ -37,7 +37,7 @@ public class TvdbAuthenticator implements Authenticator {
 			return null;
 		}
 
-		Call<Token> loginCall = tvdbUtils.authenticate().login(new LoginData(TvdbUtils.apikey));
+		Call<Token> loginCall = tvdbUtils.authenticate().login(new LoginData(tvdbUtils.getApiKey()));
 
 		retrofit2.Response<Token> loginResponse = loginCall.execute();
 
