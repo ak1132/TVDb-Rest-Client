@@ -6,7 +6,7 @@ import com.tvdbRestClient.models.response.EpisodesSummaryResponse;
 import com.tvdbRestClient.models.response.SeriesImageQueryParamResponse;
 import com.tvdbRestClient.models.response.SeriesImageQueryResultResponse;
 import com.tvdbRestClient.models.response.SeriesResponse;
-import com.tvdbRestClient.utils.TvdbUtils;
+import com.tvdbRestClient.utils.TvdbCallUtils;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -33,10 +33,10 @@ public interface TvdbSeries {
 	 *            negotiation</a>.
 	 */
 	@GET("series/{id}")
-	Call<SeriesResponse> series(@Path("id") int id, @Header(TvdbUtils.HEADER_ACCEPT_LANGUAGE) String language);
+	Call<SeriesResponse> series(@Path("id") int id, @Header(TvdbCallUtils.HEADER_ACCEPT_LANGUAGE) String language);
 
 	@HEAD("series/{id}")
-	Call<Void> seriesHeader(@Path("id") int id, @Header(TvdbUtils.HEADER_ACCEPT_LANGUAGE) String language);
+	Call<Void> seriesHeader(@Path("id") int id, @Header(TvdbCallUtils.HEADER_ACCEPT_LANGUAGE) String language);
 
 	/**
 	 * @see <a href=
@@ -65,7 +65,7 @@ public interface TvdbSeries {
 	 */
 	@GET("series/{id}/episodes")
 	Call<EpisodeResponse> episodes(@Path("id") int id, @Query("page") Integer page,
-			@Header(TvdbUtils.HEADER_ACCEPT_LANGUAGE) String language);
+			@Header(TvdbCallUtils.HEADER_ACCEPT_LANGUAGE) String language);
 
 	/**
 	 * This route allows the user to query against episodes for the given series.
@@ -89,7 +89,7 @@ public interface TvdbSeries {
 			@Query("airedSeason") Integer airedSeason, @Query("airedEpisode") Integer airedEpisode,
 			@Query("dvdSeason") Integer dvdSeason, @Query("dvdEpisode") Double dvdEpisode,
 			@Query("imdbId") String imdbId, @Query("firstAired") String firstAired, @Query("page") Integer page,
-			@Header(TvdbUtils.HEADER_ACCEPT_LANGUAGE) String language);
+			@Header(TvdbCallUtils.HEADER_ACCEPT_LANGUAGE) String language);
 
 	@GET("series/{id}/episodes/summary")
 	Call<EpisodesSummaryResponse> episodesSummary(@Path("id") int id);
@@ -97,7 +97,7 @@ public interface TvdbSeries {
 	@GET("series/{id}/images/query")
 	Call<SeriesImageQueryResultResponse> imagesQuery(@Path("id") int id, @Query("keyType") String keyType,
 			@Query("resolution") String resolution, @Query("subKey") String subKey,
-			@Header(TvdbUtils.HEADER_ACCEPT_LANGUAGE) String language);
+			@Header(TvdbCallUtils.HEADER_ACCEPT_LANGUAGE) String language);
 
 	@GET("series/{id}/images/query/params")
 	Call<SeriesImageQueryParamResponse> imagesQueryParams(@Path("id") int id);

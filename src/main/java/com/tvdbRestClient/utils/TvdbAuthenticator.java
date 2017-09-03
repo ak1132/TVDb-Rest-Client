@@ -14,12 +14,6 @@ import retrofit2.Call;
 
 public class TvdbAuthenticator implements Authenticator {
 
-	private TvdbUtils tvdbUtils;
-
-	public TvdbAuthenticator(TvdbUtils tvdbUtils) {
-		this.tvdbUtils = tvdbUtils;
-	}
-
 	@Override
 	public Request authenticate(Route route, Response response) throws IOException {
 
@@ -37,7 +31,7 @@ public class TvdbAuthenticator implements Authenticator {
 			return null;
 		}
 
-		Call<Token> loginCall = tvdbUtils.authenticate().login(new LoginData(tvdbUtils.getApiKey()));
+		Call<Token> loginCall = TvdbCallUtils.authenticate().login(new LoginData(TvdbCallUtils.apikey));
 
 		retrofit2.Response<Token> loginResponse = loginCall.execute();
 
@@ -45,10 +39,10 @@ public class TvdbAuthenticator implements Authenticator {
 			return null;
 		}
 
-		TvdbData.token = loginResponse.body().token;
+		TvdbData.token = loginResponse.body().getToken();
 
 		// retry request
-		return authResponse.newBuilder().header(TvdbUtils.HEADER_AUTHORIZATION, "Bearer" + " " + TvdbData.token)
+		return authResponse.newBuilder().header(TvdbCallUtils.HEADER_AUTHORIZATION, "Bearer" + " " + TvdbData.token)
 				.build();
 
 	}

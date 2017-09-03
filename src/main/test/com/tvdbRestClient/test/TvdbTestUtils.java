@@ -1,38 +1,46 @@
 package com.tvdbRestClient.test;
 
-import com.tvdbRestClient.utils.TvdbUtils;
+import static org.assertj.core.api.Assertions.fail;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
+import java.io.IOException;
+
+import org.junit.BeforeClass;
+
+import com.tvdbRestClient.utils.TvdbCallUtils;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class TvdbTestUtils {
 
-	private static final boolean DEBUG = true;
+	private static final String apikey = "1992394273E010A4";
 
-	private static TvdbUtils tvdbUtils;
-
-	protected void getTestOkHttpClient() {
-		OkHttpClient.Builder builder = getTvdbUtils().getOkHttpClient().newBuilder();
-		if (DEBUG) {
-			// add logging
-			HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-				@Override
-				public void log(String s) {
-					// standard output is easier to read
-					System.out.println(s);
-				}
-			});
-			logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-			builder.addInterceptor(logging);
+	protected <T> T executeCall(Call<T> call) throws IOException {
+		Response<T> response = call.execute();
+		if (response.isSuccessful()) {
+			T body = response.body();
+			if (body == null) {
+				fail("body == null");
+			} else {
+				return body;
+			}
+		} else {
+			handleFailedResponse(response);
 		}
+		return null;
 	}
 
-	public TvdbUtils getTvdbUtils() {
-		if (tvdbUtils == null) {
-			tvdbUtils = new TvdbUtils();
-			return tvdbUtils;
+	@BeforeClass
+	public static void setUpOnce() {
+		new TvdbCallUtils(apikey);
+	}
+
+	private static void handleFailedResponse(Response response) {
+		if (response.code() == 401) {
+			fail(String.format("Authorization required: %d %s", response.code(), response.message()));
+		} else {
+			fail(String.format("Request failed: %d %s", response.code(), response.message()));
 		}
-		return tvdbUtils;
 	}
 
 }

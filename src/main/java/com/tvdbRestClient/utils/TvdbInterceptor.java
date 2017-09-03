@@ -23,14 +23,14 @@ public class TvdbInterceptor implements Interceptor {
 
 		Request request = chain.request();
 
-		if (!TvdbUtils.API_HOST.equals(request.url().host())) {
+		if (!TvdbCallUtils.API_HOST.equals(request.url().host())) {
 			return chain.proceed(request);
 		}
 
 		Request.Builder requestBuilder = request.newBuilder();
 
 		if (!hasAuthenticationHeader(request) && IsWebTokenEmpty(webToken)) {
-			requestBuilder.addHeader(TvdbUtils.HEADER_AUTHORIZATION, "Bearer " + webToken);
+			requestBuilder.addHeader(TvdbCallUtils.HEADER_AUTHORIZATION, "Bearer " + webToken);
 		}
 
 		return chain.proceed(requestBuilder.build());
@@ -38,7 +38,7 @@ public class TvdbInterceptor implements Interceptor {
 	}
 
 	private boolean hasAuthenticationHeader(Request request) {
-		return request.header(TvdbUtils.HEADER_AUTHORIZATION) == null;
+		return request.header(TvdbCallUtils.HEADER_AUTHORIZATION) == null;
 	}
 
 	private boolean IsWebTokenEmpty(String webToken) {

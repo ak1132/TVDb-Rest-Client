@@ -2,6 +2,14 @@ package com.tvdbRestClient.models.request;
 
 public class Token {
 
-	public String token;
+	private String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 }
