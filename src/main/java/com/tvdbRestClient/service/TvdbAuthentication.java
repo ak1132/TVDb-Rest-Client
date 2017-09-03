@@ -9,10 +9,10 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface TvdbAuthentication {
-	
+
 	@POST("login")
 	Call<Token> login(@Body LoginData loginData);
-	
+
 	@GET("refresh_token")
 	Call<Token> refreshToken();
 

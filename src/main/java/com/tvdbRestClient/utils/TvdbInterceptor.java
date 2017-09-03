@@ -14,6 +14,7 @@ import okhttp3.Response;
 
 public class TvdbInterceptor implements Interceptor {
 
+	@Override
 	public Response intercept(Chain chain) throws IOException {
 		return handleIntercept(chain, TvdbData.token);
 	}

@@ -1,6 +1,6 @@
 package com.tvdbRestClient.models.request;
 
-public class TvdbData extends LoginData {
+public class TvdbData {
 
 	public static String token;
 

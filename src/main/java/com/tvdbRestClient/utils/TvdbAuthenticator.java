@@ -14,13 +14,20 @@ import retrofit2.Call;
 
 public class TvdbAuthenticator implements Authenticator {
 
+	private TvdbUtils tvdbUtils;
+
+	public TvdbAuthenticator(TvdbUtils tvdbUtils) {
+		this.tvdbUtils = tvdbUtils;
+	}
+
+	@Override
 	public Request authenticate(Route route, Response response) throws IOException {
 
 		Request authResponse = response.request();
 
 		String requestUrl = authResponse.url().encodedPath();
 
-		String LOGIN_PATH = "/" + TvdbData.LOGIN_PATH;
+		String LOGIN_PATH = "/" + LoginData.LOGIN_PATH;
 
 		if (LOGIN_PATH.equals(requestUrl)) {
 			return null;
@@ -30,7 +37,7 @@ public class TvdbAuthenticator implements Authenticator {
 			return null;
 		}
 
-		Call<Token> loginCall = TvdbUtils.authenticate().login(new LoginData());
+		Call<Token> loginCall = tvdbUtils.authenticate().login(new LoginData(TvdbUtils.apikey));
 
 		retrofit2.Response<Token> loginResponse = loginCall.execute();
 

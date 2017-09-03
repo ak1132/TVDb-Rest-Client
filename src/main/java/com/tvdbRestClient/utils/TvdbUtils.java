@@ -18,11 +18,23 @@ public class TvdbUtils {
 	public static final String HEADER_ACCEPT_LANGUAGE = "Accept-Language";
 	public static final String HEADER_AUTHORIZATION = "Authorization";
 
-	private static OkHttpClient okHttpClient;
+	public static final String apikey = "1992394273E010A4";
 
-	private static Retrofit retrofit;
+	public String token = null;
 
-	public static Retrofit getTvdbRetrofitClient() {
+	private OkHttpClient okHttpClient;
+
+	private Retrofit retrofit;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public Retrofit getTvdbRetrofitClient() {
 		if (retrofit == null) {
 			retrofit = new Retrofit.Builder().baseUrl(TvdbUtils.URL).addConverterFactory(GsonConverterFactory.create())
 					.build();
@@ -30,32 +42,32 @@ public class TvdbUtils {
 		return retrofit;
 	}
 
-	public static OkHttpClient getOkHttpClient(String jsonWebToken) {
+	public OkHttpClient getOkHttpClient() {
 		if (okHttpClient == null) {
 			OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
-					.addNetworkInterceptor(new TvdbInterceptor()).authenticator(new TvdbAuthenticator());
+					.addNetworkInterceptor(new TvdbInterceptor()).authenticator(new TvdbAuthenticator(this));
 			okHttpClient = okHttpClientBuilder.build();
 		}
 		return okHttpClient;
 	}
 
-	public static TvdbAuthentication authenticate() {
+	public TvdbAuthentication authenticate() {
 		return getTvdbRetrofitClient().create(TvdbAuthentication.class);
 	}
 
-	public static TvdbEpisodes getEpisodes() {
+	public TvdbEpisodes getEpisodes() {
 		return getTvdbRetrofitClient().create(TvdbEpisodes.class);
 	}
 
-	public static TvdbLanguages getLanguages() {
+	public TvdbLanguages getLanguages() {
 		return getTvdbRetrofitClient().create(TvdbLanguages.class);
 	}
 
-	public static TvdbSearch searchTvdb() {
+	public TvdbSearch searchTvdb() {
 		return getTvdbRetrofitClient().create(TvdbSearch.class);
 	}
 
-	public static TvdbSeries getTvdbSeries() {
+	public TvdbSeries getTvdbSeries() {
 		return getTvdbRetrofitClient().create(TvdbSeries.class);
 	}
 
