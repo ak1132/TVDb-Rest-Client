@@ -4,24 +4,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import com.tvdbRestClient.models.request.LoginData;
 import com.tvdbRestClient.models.request.Token;
-import com.tvdbRestClient.utils.TvdbCallUtils;
 
 import retrofit2.Call;
 
-public class TvdbAuthenticationTest extends TvdbTestUtils {
+public class TvdbAuthenticationTest extends AbstractTestUtils {
 
 	@Test
 	public void test_login() throws IOException {
 
-		if (TvdbCallUtils.apikey.length() == 0) {
+		String apikey = getTvdbTestUtils().getApikey();
+
+		if (StringUtils.isEmpty(apikey)) {
 			throw new IllegalArgumentException("Set your TheTVDB API key to test /login.");
 		}
 
-		Call<Token> call = TvdbCallUtils.authenticate().login(new LoginData(TvdbCallUtils.apikey));
+		Call<Token> call = getTvdbTestUtils().authenticate().login(new LoginData(apikey));
 
 		Token token = executeCall(call);
 
@@ -31,25 +33,27 @@ public class TvdbAuthenticationTest extends TvdbTestUtils {
 	@Test
 	public void test_refreshToken() throws IOException {
 
-		if (TvdbCallUtils.apikey.length() == 0) {
+		String apikey = getTvdbTestUtils().getApikey();
+
+		if (StringUtils.isEmpty(apikey)) {
 			throw new IllegalArgumentException("Set your TheTVDB API key to test /login.");
 		}
 
-		TvdbCallUtils.token = null;
+		getTvdbTestUtils().setToken(null);
 
-		Call<Token> call = TvdbCallUtils.authenticate().login(new LoginData(TvdbCallUtils.apikey));
+		Call<Token> call = getTvdbTestUtils().authenticate().login(new LoginData(apikey));
 
-		Token token = executeCall(call);
+		Token loginToken = executeCall(call);
 
-		TvdbCallUtils.token = token.getToken();
+		getTvdbTestUtils().setToken(loginToken.getToken());
 
-		call = TvdbCallUtils.authenticate().refreshToken();
+		call = getTvdbTestUtils().authenticate().refreshToken();
 
 		Token refreshedToken = executeCall(call);
 
-		assertThat(refreshedToken.getToken()).isNotEqualTo(token.getToken());
+		assertThat(refreshedToken.getToken()).isNotEqualTo(loginToken.getToken());
 
-		System.out.println("Old Token: " + token.getToken());
+		System.out.println("Old Token: " + loginToken.getToken());
 
 		System.out.println("Refreshed token: " + refreshedToken.getToken() + " (valid for 24 hours)");
 	}

@@ -7,6 +7,7 @@ import com.tvdbRestClient.service.TvdbSearch;
 import com.tvdbRestClient.service.TvdbSeries;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,19 +19,35 @@ public class TvdbCallUtils {
 	public static final String HEADER_ACCEPT_LANGUAGE = "Accept-Language";
 	public static final String HEADER_AUTHORIZATION = "Authorization";
 
-	public static String apikey;
+	public String apikey;
 
-	public static String token;
+	public String token;
 
-	private static OkHttpClient okHttpClient;
+	protected OkHttpClient okHttpClient;
 
-	private static Retrofit retrofit;
+	private Retrofit retrofit;
 
 	public TvdbCallUtils(String apikey) {
-		TvdbCallUtils.apikey = apikey;
+		this.apikey = apikey;
 	}
 
-	public static Retrofit getTvdbRetrofitClient() {
+	public String getApikey() {
+		return apikey;
+	}
+
+	public void setApikey(String apikey) {
+		this.apikey = apikey;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public Retrofit getTvdbRetrofitClient() {
 		if (retrofit == null) {
 			retrofit = new Retrofit.Builder().baseUrl(TvdbCallUtils.URL)
 					.addConverterFactory(GsonConverterFactory.create()).client(getOkHttpClient()).build();
@@ -38,35 +55,49 @@ public class TvdbCallUtils {
 		return retrofit;
 	}
 
-	public static OkHttpClient getOkHttpClient() {
+	protected OkHttpClient getOkHttpClient() {
 
 		if (okHttpClient == null) {
-
-			OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
-					.addNetworkInterceptor(new TvdbInterceptor()).authenticator(new TvdbAuthenticator());
-
+			OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+			setOkHttpConfig(okHttpClientBuilder, false);
 			okHttpClient = okHttpClientBuilder.build();
 		}
 		return okHttpClient;
 	}
 
-	public static TvdbAuthentication authenticate() {
+	protected OkHttpClient.Builder setOkHttpConfig(OkHttpClient.Builder okHttpClientBuilder, boolean DEBUG) {
+		okHttpClientBuilder.addNetworkInterceptor(new TvdbInterceptor()).authenticator(new TvdbAuthenticator(this));
+		if (DEBUG) {
+			// add logging
+			HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+				@Override
+				public void log(String s) {
+					System.out.println(s);
+				}
+			});
+			logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+			okHttpClientBuilder.addInterceptor(logging);
+		}
+		return okHttpClientBuilder;
+	}
+
+	public TvdbAuthentication authenticate() {
 		return getTvdbRetrofitClient().create(TvdbAuthentication.class);
 	}
 
-	public static TvdbEpisodes getEpisodes() {
+	public TvdbEpisodes getEpisodes() {
 		return getTvdbRetrofitClient().create(TvdbEpisodes.class);
 	}
 
-	public static TvdbLanguages getLanguages() {
+	public TvdbLanguages getLanguages() {
 		return getTvdbRetrofitClient().create(TvdbLanguages.class);
 	}
 
-	public static TvdbSearch searchTvdb() {
+	public TvdbSearch searchTvdb() {
 		return getTvdbRetrofitClient().create(TvdbSearch.class);
 	}
 
-	public static TvdbSeries getTvdbSeries() {
+	public TvdbSeries getTvdbSeries() {
 		return getTvdbRetrofitClient().create(TvdbSeries.class);
 	}
 

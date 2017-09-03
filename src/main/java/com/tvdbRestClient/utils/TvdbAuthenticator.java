@@ -14,6 +14,12 @@ import retrofit2.Call;
 
 public class TvdbAuthenticator implements Authenticator {
 
+	private TvdbCallUtils tvdbCallUtils;
+
+	public TvdbAuthenticator(TvdbCallUtils tvdbCallUtils) {
+		this.tvdbCallUtils = tvdbCallUtils;
+	}
+
 	@Override
 	public Request authenticate(Route route, Response response) throws IOException {
 
@@ -31,7 +37,7 @@ public class TvdbAuthenticator implements Authenticator {
 			return null;
 		}
 
-		Call<Token> loginCall = TvdbCallUtils.authenticate().login(new LoginData(TvdbCallUtils.apikey));
+		Call<Token> loginCall = tvdbCallUtils.authenticate().login(new LoginData(tvdbCallUtils.getApikey()));
 
 		retrofit2.Response<Token> loginResponse = loginCall.execute();
 

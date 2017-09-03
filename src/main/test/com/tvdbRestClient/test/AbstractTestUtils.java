@@ -4,16 +4,35 @@ import static org.assertj.core.api.Assertions.fail;
 
 import java.io.IOException;
 
-import org.junit.BeforeClass;
-
 import com.tvdbRestClient.utils.TvdbCallUtils;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class TvdbTestUtils {
+public class AbstractTestUtils {
 
 	private static final String apikey = "1992394273E010A4";
+
+	private TvdbTestUtils tvdbTestUtils = null;
+
+	static class TvdbTestUtils extends TvdbCallUtils {
+
+		public TvdbTestUtils(String apikey) {
+			super(apikey);
+		}
+
+		@Override
+		protected OkHttpClient getOkHttpClient() {
+
+			if (okHttpClient == null) {
+				OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+				setOkHttpConfig(okHttpClientBuilder, true);
+				okHttpClient = okHttpClientBuilder.build();
+			}
+			return okHttpClient;
+		}
+	}
 
 	protected <T> T executeCall(Call<T> call) throws IOException {
 		Response<T> response = call.execute();
@@ -30,9 +49,12 @@ public class TvdbTestUtils {
 		return null;
 	}
 
-	@BeforeClass
-	public static void setUpOnce() {
-		new TvdbCallUtils(apikey);
+	public TvdbTestUtils getTvdbTestUtils() {
+
+		if (tvdbTestUtils == null) {
+			return new TvdbTestUtils(apikey);
+		}
+		return tvdbTestUtils;
 	}
 
 	private static void handleFailedResponse(Response response) {
