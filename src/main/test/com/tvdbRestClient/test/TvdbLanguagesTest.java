@@ -13,7 +13,7 @@ import com.tvdbRestClient.models.response.LanguagesResponse;
 
 import retrofit2.Call;
 
-public class TvdbLanguagesTest extends AbstractTestUtils {
+public class TvdbLanguagesTest extends TestUtils {
 
 	@Test
 	public void test_allAvailable() throws IOException {

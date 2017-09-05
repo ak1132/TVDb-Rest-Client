@@ -12,7 +12,7 @@ import com.tvdbRestClient.models.response.SeriesResultsResponse;
 
 import retrofit2.Call;
 
-public class TvdbSearchTest extends AbstractTestUtils {
+public class TvdbSearchTest extends TestUtils {
 
 	@Test
 	public void test_series() throws IOException {

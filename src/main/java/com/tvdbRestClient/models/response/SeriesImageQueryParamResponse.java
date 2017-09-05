@@ -6,6 +6,14 @@ import com.tvdbRestClient.models.request.SeriesImageQueryParam;
 
 public class SeriesImageQueryParamResponse {
 
-	public List<SeriesImageQueryParam> data;
+	private List<SeriesImageQueryParam> data;
+
+	public List<SeriesImageQueryParam> getData() {
+		return data;
+	}
+
+	public void setData(List<SeriesImageQueryParam> data) {
+		this.data = data;
+	}
 
 }

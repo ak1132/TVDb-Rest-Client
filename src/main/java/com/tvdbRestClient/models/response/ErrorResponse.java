@@ -1,16 +1,15 @@
 package com.tvdbRestClient.models.response;
 
-import java.util.List;
+public class ErrorResponse extends JsonErrors {
 
-public class ErrorResponse {
+	private JsonErrors errors;
 
-    public JsonErrors errors;
+	public JsonErrors getErrors() {
+		return errors;
+	}
 
-    public static class JsonErrors {
-        public List<String> invalidFilters;
-        /** Non-null if some translations were not available in the specified language. */
-        public String invalidLanguage;
-        public List<String> invalidQueryParams;
-    }
+	public void setErrors(JsonErrors errors) {
+		this.errors = errors;
+	}
 
 }

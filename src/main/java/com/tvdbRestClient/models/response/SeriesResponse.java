@@ -4,6 +4,14 @@ import com.tvdbRestClient.models.request.Series;
 
 public class SeriesResponse extends ErrorResponse {
 
-	public Series data;
+	private Series data;
+
+	public Series getData() {
+		return data;
+	}
+
+	public void setData(Series data) {
+		this.data = data;
+	}
 
 }

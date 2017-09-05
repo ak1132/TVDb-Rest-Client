@@ -4,24 +4,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.tvdbRestClient.models.request.Episode;
-import com.tvdbRestClient.models.response.EpisodeResponse;
+import com.tvdbRestClient.models.request.FullEpisode;
+import com.tvdbRestClient.models.response.FullEpisodeResponse;
 
-public class TvdbEpisodesTest extends AbstractTestUtils {
+public class TvdbEpisodesTest extends TestUtils {
 	@Test
 	public void test_get() throws Exception {
-		EpisodeResponse episodeResponse = executeCall(
+		FullEpisodeResponse fullEpisodeResponse = executeCall(
 				getTvdbTestUtils().getEpisodes().get(TestData.EPISODE_TVDB_ID, TestData.LANGUAGE_EN));
-		Episode episode = episodeResponse.getData();
+		FullEpisode episode = fullEpisodeResponse.getData();
 		TestData.assertBasicEpisode(episode);
 		assertThat(episode.getId()).isEqualTo(TestData.EPISODE_TVDB_ID);
 	}
 
 	@Test
 	public void test_getInvalidLanguage() throws Exception {
-		EpisodeResponse episodeResponse = executeCall(
+		FullEpisodeResponse fullEpisodeResponse = executeCall(
 				getTvdbTestUtils().getEpisodes().get(TestData.EPISODE_TVDB_ID, "xx"));
-		assertThat(episodeResponse.errors.invalidLanguage).isNotEmpty();
+		assertThat(fullEpisodeResponse.getErrors().getInvalidLanguage()).isNotEmpty();
 	}
 
 }

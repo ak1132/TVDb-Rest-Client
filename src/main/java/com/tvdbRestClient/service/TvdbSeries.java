@@ -1,7 +1,7 @@
 package com.tvdbRestClient.service;
 
 import com.tvdbRestClient.models.response.ActorResponse;
-import com.tvdbRestClient.models.response.EpisodeResponse;
+import com.tvdbRestClient.models.response.EpisodesResponse;
 import com.tvdbRestClient.models.response.EpisodesSummaryResponse;
 import com.tvdbRestClient.models.response.SeriesImageQueryParamResponse;
 import com.tvdbRestClient.models.response.SeriesImageQueryResultResponse;
@@ -64,7 +64,7 @@ public interface TvdbSeries {
 	 *            Page of results to fetch. Defaults to page 1 if not provided.
 	 */
 	@GET("series/{id}/episodes")
-	Call<EpisodeResponse> episodes(@Path("id") int id, @Query("page") Integer page,
+	Call<EpisodesResponse> episodes(@Path("id") int id, @Query("page") Integer page,
 			@Header(TvdbCallUtils.HEADER_ACCEPT_LANGUAGE) String language);
 
 	/**
@@ -85,7 +85,7 @@ public interface TvdbSeries {
 	 *            Page of results to fetch. Defaults to page 1 if not provided.
 	 */
 	@GET("series/{id}/episodes/query")
-	Call<EpisodeResponse> episodesQuery(@Path("id") int id, @Query("absoluteNumber") Integer absoluteNumber,
+	Call<EpisodesResponse> episodesQuery(@Path("id") int id, @Query("absoluteNumber") Integer absoluteNumber,
 			@Query("airedSeason") Integer airedSeason, @Query("airedEpisode") Integer airedEpisode,
 			@Query("dvdSeason") Integer dvdSeason, @Query("dvdEpisode") Double dvdEpisode,
 			@Query("imdbId") String imdbId, @Query("firstAired") String firstAired, @Query("page") Integer page,

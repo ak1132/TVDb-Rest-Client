@@ -2,7 +2,7 @@ package com.tvdbRestClient.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tvdbRestClient.models.request.Episode;
+import com.tvdbRestClient.models.request.FullEpisode;
 import com.tvdbRestClient.models.request.Series;
 
 public class TestData {
@@ -24,9 +24,12 @@ public class TestData {
 		assertThat(series.getAdded()).isEqualTo("2008-10-17 15:05:50");
 	}
 
-	public static void assertBasicEpisode(Episode episode) {
+	public static void assertBasicEpisode(FullEpisode episode) {
+
 		assertThat(episode.getId()).isPositive();
+
 		assertThat(episode.getAiredEpisodeNumber()).isGreaterThanOrEqualTo(0);
+
 		if (episode.getAbsoluteNumber() != null) {
 			assertThat(episode.getAbsoluteNumber()).isGreaterThanOrEqualTo(0);
 		}
@@ -36,7 +39,9 @@ public class TestData {
 		if (episode.getDvdSeason() != null) {
 			assertThat(episode.getDvdSeason()).isGreaterThanOrEqualTo(0);
 		}
+
 		assertThat(episode.getAiredSeason()).isGreaterThanOrEqualTo(0);
+
 		if (episode.getAiredSeasonID() != null) {
 			assertThat(episode.getAiredSeasonID()).isPositive();
 		}

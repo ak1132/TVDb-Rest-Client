@@ -12,7 +12,7 @@ import com.tvdbRestClient.models.request.Token;
 
 import retrofit2.Call;
 
-public class TvdbAuthenticationTest extends AbstractTestUtils {
+public class TvdbAuthenticationTest extends TestUtils {
 
 	@Test
 	public void test_login() throws IOException {

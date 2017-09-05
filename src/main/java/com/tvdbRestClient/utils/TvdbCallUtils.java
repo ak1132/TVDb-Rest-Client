@@ -5,6 +5,7 @@ import com.tvdbRestClient.service.TvdbEpisodes;
 import com.tvdbRestClient.service.TvdbLanguages;
 import com.tvdbRestClient.service.TvdbSearch;
 import com.tvdbRestClient.service.TvdbSeries;
+import com.tvdbRestClient.service.TvdbUpdates;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -99,6 +100,10 @@ public class TvdbCallUtils {
 
 	public TvdbSeries getTvdbSeries() {
 		return getTvdbRetrofitClient().create(TvdbSeries.class);
+	}
+
+	public TvdbUpdates getTvdbSeriesUpdates() {
+		return getTvdbRetrofitClient().create(TvdbUpdates.class);
 	}
 
 }
